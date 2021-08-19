@@ -1,34 +1,52 @@
+var garden,rabbit;
+var gardenImg,rabbitImg;
+var apple,appleImg;
+var apples
+function preload(){
+  gardenImg = loadImage("garden.png");
+  rabbitImg = loadImage("rabbit.png");
+  appleImg = loadImage("apple.png")
+}
 
-function setup() {
-  createCanvas(400,400); 
- 
-  btn_red = createButton("RED");
-  btn_red.position(100,50);
-  btn_red.mousePressed(red_bg);
+function setup(){
+  
+  createCanvas(400,400);
+  
+// Moving background
+garden=createSprite(200,200);
+garden.addImage(gardenImg);
 
-  btn_green = createButton("GREEN");
-  btn_green.position (250,50);
-  btn_green.mousePressed(green_bg);
+//creating boy running
+rabbit = createSprite(180,340,30,30);
+rabbit.scale =0.09;
+rabbit.addImage(rabbitImg);
+
+apples = createGroup();
 
 }
 
-function red_bg() 
-{
-  r = 255;
-  g = 0;
-  b = 0;
+function createApples(){
+  apple = createSprite(random(50,350),40,10,10);
+  apple.addImage(appleImg);
+  apple.scale = 0.08;
+  apple.velocityY = 3;
+  apples.add(apple);
+
+}
+
+function draw() {
+  background(0);
+  
+  edges= createEdgeSprites();
+  rabbit.collide(edges);
+  
+  if(frameCount % 80 == 0){
+    createApples();
+  }
+  rabbit.x=mouseX;
+
+  if(rabbit.isTouching(apples)){
+    apples.destroyEach();
+  }
   drawSprites();
 }
-
-function green_bg()
-  {
-    r = 0;
-    g = 255;
-    b = 0;
-    drawSprites();
-  }
-
-
-
-
-
